@@ -32,6 +32,10 @@ function App() {
         setPosition([...position, {id: id, term: title, description: 'empty', showDescription: false},])
     }
 
+    const toEditSpanCallback = (title: string, id: string) => {
+        setPosition([...position.map(el => el.id === id ? {...el, description: title} : el)])
+    }
+
 
     return (
         <div className="App">
@@ -39,7 +43,7 @@ function App() {
                         RemovePositionCallback={RemovePositionCallback}
                         DescriptorCallback={DescriptorCallback}
                         addNewPosition={addNewPosition}
-                        //newGeneratedPositionID={newGeneratedPositionID}
+                        toEditSpanCallback={toEditSpanCallback}
 
             />
         </div>

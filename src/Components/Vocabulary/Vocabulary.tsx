@@ -10,17 +10,25 @@ export type VocabularyPropsType = {
     RemovePositionCallback: (positionID: string) => void
     DescriptorCallback: (positionID: string, descriptionToShow: boolean) => void
     addNewPosition: (title: string, id: string) => void
+    toEditSpanCallback: (title: string, id: string) => void
 }
 
 export function Vocabulary(props: VocabularyPropsType) {
 
-    const mappedOptions = props.position.map(position => {
+    const sortedPosition: PositionsType[] = props.position.sort((a, b) => a.term.toLowerCase() >= b.term.toLowerCase() ? 1 : -1 )
+
+    // let sortByScores = deepCopyStudents.sort((a, b) => a.scores >= b.scores ? -1 : 1);
+
+    const mappedOptions = sortedPosition.map(position => {
 
         const removePositionHandler = () => {
             props.RemovePositionCallback(position.id)
         }
         const ShowDescriptionHandler = () => {
             props.DescriptorCallback(position.id, position.showDescription)
+        }
+        const EditSpanCallback = (newValue: string) => {
+            props.toEditSpanCallback(newValue, position.id)
         }
 
         return (
@@ -32,7 +40,9 @@ export function Vocabulary(props: VocabularyPropsType) {
 
                 ---{position.showDescription
                 ? <span>
-                <EditableSpan value={position.description} EditSpanCallback={()=> {} } />
+                <EditableSpan value={position.description}
+                              EditSpanCallback={EditSpanCallback}
+                />
                 </span>
                 : <span/>}
 
