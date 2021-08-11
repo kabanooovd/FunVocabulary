@@ -1,7 +1,7 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type AddItemFormType = {
-    addTextCallback: (title: string, todoListId: string) => void
+    addTextCallback: (title: string, id: string) => void
     id: string
 }
 

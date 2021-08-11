@@ -28,6 +28,9 @@ function App() {
         setPosition([...position.map(el=>el.id === positionID ? {...el, showDescription: !descriptionToShow} : el)])
     }
 
+    const addNewPosition = (title: string, id: string) => {
+        setPosition([...position, {id: id, term: title, description: 'empty', showDescription: false},])
+    }
 
 
     return (
@@ -35,6 +38,8 @@ function App() {
             <Vocabulary position={position}
                         RemovePositionCallback={RemovePositionCallback}
                         DescriptorCallback={DescriptorCallback}
+                        addNewPosition={addNewPosition}
+                        //newGeneratedPositionID={newGeneratedPositionID}
 
             />
         </div>
