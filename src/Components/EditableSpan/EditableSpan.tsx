@@ -17,11 +17,11 @@ export function EditableSpan(props: EditableSpanPropsType) {
         setEditMode(false);
         props.EditSpanCallback(title);
     }
-    const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    const changeTitle = (e:  React.ChangeEvent<HTMLTextAreaElement>) => {
         setTitle(e.currentTarget.value)
     }
 
     return editMode
-        ? <input value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode}/>
+        ? <textarea value={title} onChange={changeTitle} autoFocus onBlur={activateViewMode}/>
         : <span onDoubleClick={activateEditMode}>{props.value}</span>
 }

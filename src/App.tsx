@@ -5,9 +5,9 @@ import {v1} from 'uuid'
 import {
     addPositionAC,
     changeDescriptionTextAC,
-    changeDescriptorAC,
+    tornOnDescriptorAC,
     positionReducer,
-    removePositionAC
+    removePositionAC, tornOffDescriptorAC
 } from "./state/position-reducer";
 
 export type PositionsType = {
@@ -30,8 +30,11 @@ function App() {
     const RemovePositionCallback = (positionID: string) => {
         setPosition(positionReducer(position, removePositionAC(positionID)))
     }
-    const DescriptorCallback = (positionID: string, descriptionToShow: boolean) => {
-        setPosition(positionReducer(position, changeDescriptorAC(positionID, descriptionToShow)))
+    const DescriptorONCallback = (positionID: string, descriptionToShow: boolean) => {
+        setPosition(positionReducer(position, tornOnDescriptorAC(positionID, descriptionToShow)))
+    }
+    const DescriptorOffCallback = (positionID: string, descriptionToShow: boolean) => {
+        setPosition(positionReducer(position, tornOffDescriptorAC(positionID, descriptionToShow)))
     }
     const addNewPosition = (title: string, id: string) => {
         setPosition(positionReducer(position, addPositionAC(title, id)))
@@ -45,9 +48,10 @@ function App() {
         <div className="App">
             <Vocabulary position={position}
                         RemovePositionCallback={RemovePositionCallback}
-                        DescriptorCallback={DescriptorCallback}
+                        DescriptorONCallback={DescriptorONCallback}
                         addNewPosition={addNewPosition}
                         toEditSpanCallback={toEditSpanCallback}
+                        DescriptorOffCallback={DescriptorOffCallback}
 
             />
         </div>

@@ -1,19 +1,21 @@
 import {PositionsType} from "../App";
-import {v1} from "uuid";
-
 
 type MainActionType = removePositionACType
-    | changeDescriptorACType
+    | tornOnDescriptorACACType
     | addPositionACType
     | changeDescriptionTextACType
+    | tornOffDescriptorACACType
 
 export const positionReducer = (state: PositionsType[], action: MainActionType): PositionsType[] => {
     switch (action.type) {
         case "REMOVE-POSITION": {
             return [...state.filter(el => el.id !== action.positionID)]
         }
-        case 'CHANGE-DESCRIPTION-MODE': {
-            return [...state.map(el => el.id === action.positionID ? {...el, showDescription: !action.descriptionMode} : el)]
+        case 'ON-DESCRIPTION-MODE': {
+            return [...state.map(el => el.id === action.positionID ? {...el, showDescription: true} : el)]
+        }
+        case 'OFF-DESCRIPTION-MODE': {
+            return [...state.map(el => el.id === action.positionID ? {...el, showDescription: false} : el)]
         }
         case 'ADD-POSITION': {
             const newPosition = {id: action.newID, term: action.term, description: 'empty', showDescription: false}
@@ -32,18 +34,19 @@ export const changeDescriptionTextAC = (positionID: string, text: string) => {
     return {type: 'CHANGE-DESCRIPTION-TEXT', positionID, text} as const
 }
 
-
-
-
-
 type addPositionACType = ReturnType<typeof addPositionAC>
 export const addPositionAC = (term: string, newID: string) => {
     return {type: 'ADD-POSITION', term, newID} as const
 }
 
-type changeDescriptorACType = ReturnType<typeof changeDescriptorAC>
-export const changeDescriptorAC = (positionID: string, descriptionMode: boolean) => {
-    return {type: 'CHANGE-DESCRIPTION-MODE', positionID, descriptionMode} as const
+type tornOnDescriptorACACType = ReturnType<typeof tornOnDescriptorAC>
+export const tornOnDescriptorAC = (positionID: string, descriptionMode: boolean) => {
+    return {type: 'ON-DESCRIPTION-MODE', positionID, descriptionMode} as const
+}
+
+type tornOffDescriptorACACType = ReturnType<typeof tornOffDescriptorAC>
+export const tornOffDescriptorAC = (positionID: string, descriptionMode: boolean) => {
+    return {type: 'OFF-DESCRIPTION-MODE', positionID, descriptionMode} as const
 }
 
 type removePositionACType = ReturnType<typeof removePositionAC>

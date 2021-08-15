@@ -3,9 +3,9 @@ import {PositionsType} from "../App";
 import {
     addPositionAC,
     changeDescriptionTextAC,
-    changeDescriptorAC,
+    tornOnDescriptorAC,
     positionReducer,
-    removePositionAC
+    removePositionAC, tornOffDescriptorAC
 } from "./position-reducer";
 
 test('position should be removed', () => {
@@ -22,7 +22,7 @@ test('position should be removed', () => {
     expect(finaleState.length).toBe(initialState.length - 1)
 })
 
-test('Descriptor mode should be changed', () => {
+test('Descriptor mode should be ON', () => {
     const initialState: PositionsType[] = [
         {id: v1(), term: 'HTML', description: 'hyper text metric language', showDescription: false},
         {id: v1(), term: 'JS', description: 'Java Script', showDescription: false},
@@ -30,10 +30,22 @@ test('Descriptor mode should be changed', () => {
         {id: v1(), term: 'Redux', description: 'Library for state control', showDescription: false},
         {id: v1(), term: 'uuid', description: 'Library which generating random strings', showDescription: false}
     ]
-    const action = changeDescriptorAC(initialState[0].id, initialState[0].showDescription)
+    const action = tornOnDescriptorAC(initialState[0].id, initialState[0].showDescription)
     const finalState = positionReducer(initialState, action)
     expect(finalState[0].showDescription).toBe(true)
+})
 
+test('Descriptor mode should be OFF', () => {
+    const initialState: PositionsType[] = [
+        {id: v1(), term: 'HTML', description: 'hyper text metric language', showDescription: true},
+        {id: v1(), term: 'JS', description: 'Java Script', showDescription: false},
+        {id: v1(), term: 'React', description: 'Library for design web apps', showDescription: false},
+        {id: v1(), term: 'Redux', description: 'Library for state control', showDescription: false},
+        {id: v1(), term: 'uuid', description: 'Library which generating random strings', showDescription: false}
+    ]
+    const action = tornOffDescriptorAC(initialState[0].id, initialState[0].showDescription)
+    const finalState = positionReducer(initialState, action)
+    expect(finalState[0].showDescription).toBe(false)
 })
 
 test('Add new position', () => {
