@@ -2,6 +2,13 @@ import React, {useState} from 'react';
 import './App.css';
 import {Vocabulary} from "./Components/Vocabulary/Vocabulary";
 import {v1} from 'uuid'
+import {
+    addPositionAC,
+    changeDescriptionTextAC,
+    changeDescriptorAC,
+    positionReducer,
+    removePositionAC
+} from "./state/position-reducer";
 
 export type PositionsType = {
     id: string
@@ -21,19 +28,16 @@ function App() {
     ])
 
     const RemovePositionCallback = (positionID: string) => {
-        setPosition([...position.filter(p => p.id !== positionID)])
+        setPosition(positionReducer(position, removePositionAC(positionID)))
     }
-
-    const DescriptorCallback =(positionID: string, descriptionToShow: boolean) => {
-        setPosition([...position.map(el=>el.id === positionID ? {...el, showDescription: !descriptionToShow} : el)])
+    const DescriptorCallback = (positionID: string, descriptionToShow: boolean) => {
+        setPosition(positionReducer(position, changeDescriptorAC(positionID, descriptionToShow)))
     }
-
     const addNewPosition = (title: string, id: string) => {
-        setPosition([...position, {id: id, term: title, description: 'empty', showDescription: false},])
+        setPosition(positionReducer(position, addPositionAC(title, id)))
     }
-
     const toEditSpanCallback = (title: string, id: string) => {
-        setPosition([...position.map(el => el.id === id ? {...el, description: title} : el)])
+        setPosition(positionReducer(position, changeDescriptionTextAC(id, title)))
     }
 
 
